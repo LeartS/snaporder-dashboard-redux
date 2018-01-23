@@ -1,13 +1,13 @@
 <template>
-<div id="app">
-    <!-- <navbar></navbar> -->
+  <v-app>
     <router-view></router-view>
-</div>
+  </v-app>
 </template>
 
 <script>
 import VueRouter from 'vue-router'
 
+import Dashboard from './dashboard.vue'
 import Login from './login.vue'
 
 const router = new VueRouter({
@@ -17,6 +17,11 @@ const router = new VueRouter({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '*',
+      name: 'dashboard',
+      component: Dashboard,
     }
   ]
 })
