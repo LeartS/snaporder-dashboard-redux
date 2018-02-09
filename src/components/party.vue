@@ -18,8 +18,8 @@
     </div>
     <div id="current-round" class="mb-5 text-xs-center">
       <h2>Round {{ partyData.round + 1 }}</h2>
-      <h2>{{ partyData.question }}</h2>
-      <h3>{{ answersText }}</h3>
+      <h2 class="question">{{ partyData.question }}</h2>
+      <h3 class="answers">{{ answersText }}</h3>
     </div>
     <div id="ranking">
         <div id="correct">
@@ -47,8 +47,8 @@
 <script>
 import baasbox from 'baasbox'
 
-const USER = 'METTIILTUOUTENTE'
-const PASS = 'METTIILATUAPASS'
+const USER = 'agos!'
+const PASS = 'minandoinallegria'
 
 const PARTY_START_WAIT_MESSAGE = 'Il party deve ancora iniziare!'
 
@@ -174,19 +174,59 @@ export default {
 <style scoped>
 
 .snapcolor {
-  background-color: #ffca28;
+  background-color: #F18623;
 }
 
 #main {
   width: 100%;
-  height: 100%;
   font-size: 2rem;
+}
+
+#main h1,
+#main h2,
+#main h3 {
+  font-family: Raleway;
+}
+
+#main h1,
+#main h2,
+#main h3,
+#main .headline {
+  color: #FFF;
+  font-weight: 200;
+}
+#main .headline span {
+  font-style: italic;
+  font-weight: 500;
+  color: #CDDC39;
+  text-shadow: 1px 1px 0px grey;
+}
+#main .question {
+  font-family: Raleway;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 25px 0;
+  letter-spacing: .5px;
+}
+#main .answers {
+  
+}
+#current-round h2:first-child {
+  color: #F44336;
+  font-size: 60px;
+  text-shadow: 0px 1px 0 grey;
 }
 
 #party-code-form {
   width: 100%;
   max-width: 400px;
   margin: auto;
+  margin-top: 45vh;
+}
+
+#party-code-form form label {
+  font-size: 25px;
+  color: #FFF;
 }
 
 #ranking {
@@ -208,4 +248,33 @@ export default {
 #ranking ul {
   list-style: none;
 }
+
+#party-details {
+  margin-top: 5px !important;
+  margin-bottom: 15px !important;
+}
+
+#correct h3:first-child,
+#wrong h3:first-child {
+  color: #101010;
+  text-decoration: underline;
+}
+#correct ul li,
+#wrong ul li {
+  text-align: center
+}
+#correct ul li,
+#wrong ul li {
+  text-align: center;
+  color: #CDDC39;
+  text-shadow: 0px 1px 0 grey;
+  font-family: Raleway;
+}
+#correct ul li span.text--red {
+  color: #2196f3;
+}
+#wrong ul li span.text--red {
+  color: #f44336;
+}
+
 </style>
