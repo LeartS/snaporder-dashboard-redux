@@ -16,12 +16,15 @@
       </span>
       </p>
     </div>
-    <div id="current-round" class="mb-5 text-xs-center">
+    <div v-if="!completed" class="round-section mb-5 text-xs-center">
       <h2>Round {{ partyData.round + 1 }}</h2>
       <h2 class="question">{{ partyData.question }}</h2>
       <h3 class="answers">{{ answersText }}</h3>
     </div>
-    <div id="ranking">
+    <div v-if="completed" class="round-section mb-5 text-cs-center">
+      <p>Il party si è concluso! Questa è la classifica finale:</p>
+    </div>
+    <div v-if="!completed" id="ranking">
         <div id="correct">
           <h3>Bravi</h3>
           <ul>
@@ -38,6 +41,11 @@
             </li>
           </ul>
         </div>
+    </div>
+    <div v-if="completed" id="final-ranking" class="text-cs-center">
+      <li v-for="finalRank in finalRanking" :key="finalRank.player">
+        {{finalRank.player}}: {{finalRank.score}}
+      </li>
     </div>
   </div>
 </v-container>
@@ -60,6 +68,7 @@ const emptyPartyData = {
   players: [],
   round: -1,
   question: null,
+  questions: [],
   plays: {},
   answers: [],
   ranking: [],
@@ -71,6 +80,7 @@ const getDataFromPartyModel = (partyDoc) => {
     name: partyDoc.name,
     players: partyDoc.players,
     round: partyDoc.currentRound,
+    questions: partyDoc.questions,
     question: currentQuestion !== undefined
       ? currentQuestion.question
       : PARTY_START_WAIT_MESSAGE,
@@ -80,10 +90,7 @@ const getDataFromPartyModel = (partyDoc) => {
     plays: currentQuestion !== undefined
       ? partyDoc.plays[partyDoc.currentRound]
       : {},
-    ranking: [
-      {name: 'LeartS', score: 213},
-      {name: 'Saro', score: 209},
-    ]
+    ranking: partyDoc.scores,
   }
 }
 
@@ -125,6 +132,22 @@ export default {
             player: this.playerNameFromId(pId),
             score: play.score,
             correct: false,
+          }
+        })
+        .sort((a, b) => a.score < b.score)
+      return c
+    },
+
+    completed: function () {
+      return this.partyData.round >= this.partyData.questions.length
+    },
+
+    finalRanking: function () {
+      const c = Object.entries(this.partyData.ranking)
+        .map(([pId, score]) => {
+          return {
+            player: this.playerNameFromId(pId),
+            score: score
           }
         })
         .sort((a, b) => a.score < b.score)
@@ -208,10 +231,12 @@ export default {
   margin: 25px 0;
   letter-spacing: .5px;
 }
-#main .answers {
-  
+
+.round-section {
+  text-align: center;
 }
-#current-round h2:first-child {
+
+.round-section h2:first-child {
   color: #F44336;
   font-size: 60px;
   text-shadow: 0px 1px 0 grey;
@@ -275,6 +300,12 @@ export default {
 }
 #wrong ul li span.text--red {
   color: #f44336;
+}
+
+#final-ranking {
+  max-width: 400px;
+  margin: auto;
+  text-align: center
 }
 
 </style>
