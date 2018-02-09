@@ -9,6 +9,9 @@ import VueRouter from 'vue-router'
 
 import Dashboard from './dashboard.vue'
 import Login from './login.vue'
+import QuestionPage from './question-page.vue'
+import QuestionList from './question-list.vue'
+import Party from './party.vue'
 
 const router = new VueRouter({
   mode: 'history',
@@ -19,10 +22,25 @@ const router = new VueRouter({
       component: Login,
     },
     {
-      path: '*',
+      path: '/app',
       name: 'dashboard',
       component: Dashboard,
-    }
+      children: [
+        {
+          path: 'question/:id',
+          component: QuestionPage,
+        },
+        {
+          path: 'question/',
+          component: QuestionList,
+        },
+      ]
+    },
+    {
+      path: '/party',
+      name: 'party',
+      component: Party,
+    },
   ]
 })
 

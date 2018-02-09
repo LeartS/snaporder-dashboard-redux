@@ -30,6 +30,7 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     historyApiFallback: true,
+    publicPath: '/'
   },
   plugins: [
     new CleanWebpackPlugin(['dist/*']),
